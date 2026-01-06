@@ -1,0 +1,69 @@
+# ============================================================================
+# .gitignore - Archivos que NO se suben a GitHub
+# ============================================================================
+
+# Carpeta de entrenamiento del modelo (notebooks + datasets)
+model/
+*.ipynb
+*.csv
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Logs
+*.log
+
+# Base de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Variables de entorno
+.env
+.env.local
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Archivos grandes (datasets)
+*.h5
+*.pkl
+*.pickle
+*.parquet
