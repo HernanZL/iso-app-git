@@ -16,9 +16,9 @@ name: CI/CD Pipeline (Render)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 permissions:
   contents: read
@@ -65,7 +65,7 @@ jobs:
     name: 📢 Notificar Despliegue
     runs-on: ubuntu-latest
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     
     steps:
       - name: ✅ Tests pasaron - Render desplegará automáticamente
