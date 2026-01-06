@@ -1,0 +1,58 @@
+GUÍA DE DESPLIEGUE A GOOGLE CLOUD (APP ENGINE)
+==============================================
+
+Esta guía te ayudará a subir "FRAUD SENTINEL AI" a Google Cloud Platform (GCP) utilizando App Engine.
+
+PRERREQUISITOS
+--------------
+1. Tener una cuenta de Google Cloud Platform.
+2. Tener instalado el "Google Cloud SDK" (gcloud CLI) en tu computadora.
+   - Descarga: https://cloud.google.com/sdk/docs/install
+
+PASOS PARA EL DESPLIEGUE
+------------------------
+
+PASO 1: Iniciar Sesión
+   Abre tu terminal (PowerShell o CMD) y ejecuta:
+   > gcloud auth login
+
+   (Se abrirá el navegador para que autorices tu cuenta).
+
+PASO 2: Configurar el Proyecto
+   Si aún no tienes un proyecto, crea uno nuevo:
+   > gcloud projects create fraud-sentinel-demo --set-as-default
+
+   Si ya tienes uno, seleccionalo:
+   > gcloud config set project NOMBRE_DE_TU_PROYECTO
+
+PASO 3: Inicializar App Engine (Solo primera vez)
+   Si nunca has usado App Engine en este proyecto, debes crear la aplicación:
+   > gcloud app create
+
+   (Te pedirá elegir una región, elige 'us-central' o la más cercana).
+
+PASO 4: Desplegar
+   Asegúrate de estar en la carpeta del proyecto (donde está app.yaml) y ejecuta:
+   > gcloud app deploy
+
+   - Te mostrará un resumen. Escribe 'Y' para confirmar.
+   - Esto subirá tu código, instalará las dependencias de requirements.txt e iniciará el servidor.
+   - Puede tardar unos minutos (3-5 min).
+
+PASO 5: Ver tu App
+   Al finalizar, te dará la URL o puedes ejecutar:
+   > gcloud app browse
+
+TROUBLESHOOTING (SI ALGO FALLA)
+-------------------------------
+1. Error "Internal Server Error" o la página no carga:
+   Revisa los logs de error en tiempo real:
+   > gcloud app logs tail -s default
+
+2. Error de dependencias:
+   Asegúrate de que 'requirements.txt' tiene todas las librerías necesarias. (Ya lo he configurado por ti).
+
+3. Costos:
+   El archivo app.yaml está configurado con "max_instances: 1" y clase "F1" para mantenerse dentro o cerca del nivel gratuito (Free Tier) de Google, pero siempre revisa tu facturación en la consola de Google Cloud.
+
+¡Éxito con tu App en la Nube!

@@ -1,0 +1,52 @@
+# ============================================================================
+# .gcloudignore - Archivos que NO se suben a Google Cloud
+# ============================================================================
+# Similar a .gitignore, pero para Google Cloud
+# ¿Por qué? Para hacer el despliegue más rápido y ahorrar espacio
+
+# Archivos de Git
+.git
+.gitignore
+
+# Archivos de GitHub
+.github/
+
+# Tests (no necesarios en producción)
+test_app.py
+pytest.ini
+.pytest_cache/
+
+# Documentación (no necesaria en producción)
+*.md
+guide_to_gcloud.txt
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs locales
+*.log

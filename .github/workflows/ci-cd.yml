@@ -1,0 +1,91 @@
+# ============================================================================
+# GITHUB ACTIONS: CI/CD PIPELINE (RENDER.COM)
+# ============================================================================
+# 
+# FLUJO AUTOMATIZADO:
+# 1. Cada vez que haces "git push" a la rama 'main'
+# 2. Ejecuta todos los tests automáticamente
+# 3. Si los tests pasan ✅, Render despliega automáticamente
+# 4. Si los tests fallan ❌, NO despliega (protege producción)
+#
+# NOTA: Render detecta cambios en GitHub automáticamente, así que
+# este workflow solo ejecuta tests. El despliegue lo hace Render.
+# ============================================================================
+
+name: CI/CD Pipeline (Render)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  # --------------------------------------------------------------------------
+  # JOB 1: TESTS AUTOMATIZADOS
+  # --------------------------------------------------------------------------
+  test:
+    name: 🧪 Ejecutar Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configurar Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: 📦 Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: ✅ Ejecutar tests
+        run: |
+          pytest test_app.py -v --tb=short
+
+      - name: 📊 Subir reporte de tests
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: pytest-report.xml
+          retention-days: 30
+
+  # --------------------------------------------------------------------------
+  # JOB 2: NOTIFICACIÓN DE DESPLIEGUE
+  # --------------------------------------------------------------------------
+  deploy-notification:
+    name: 📢 Notificar Despliegue
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: ✅ Tests pasaron - Render desplegará automáticamente
+        run: |
+          echo "🎉 Tests exitosos!"
+          echo "📡 Render detectará este push y desplegará automáticamente"
+          echo "🌐 Verifica el estado en: https://dashboard.render.com"
+
+# ============================================================================
+# ¿CÓMO FUNCIONA?
+# ============================================================================
+# 1. Haces "git push" a GitHub
+# 2. GitHub Actions ejecuta los tests
+# 3. Si pasan ✅:
+#    - Render detecta el cambio automáticamente
+#    - Descarga el código
+#    - Ejecuta "pip install -r requirements.txt"
+#    - Inicia la app con "gunicorn app:app"
+#    - Tu app queda en: https://fraud-sentinel-ai.onrender.com
+# 4. Si fallan ❌:
+#    - GitHub te notifica
+#    - Render NO despliega (protege producción)
+# ============================================================================
